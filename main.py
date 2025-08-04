@@ -1,4 +1,3 @@
-from time import sleep
 from services.devman_api import get_review_status
 from config.logger import logger
 from services.tg_bot import send_notification
