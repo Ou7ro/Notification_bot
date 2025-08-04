@@ -1,14 +1,13 @@
 import requests
-from config.settings import settings
 
 
-def get_review_status(timestamp):
+def get_review_status(devman_token, timestamp):
     devman_url = 'https://dvmn.org/api/long_polling/'
 
     params = {'timestamp': timestamp} if timestamp else {}
 
     headers = {
-        'Authorization': f'Token {settings.devman_token}'
+        'Authorization': f'Token {devman_token}'
     }
     response = requests.get(url=devman_url,
                             timeout=100,
