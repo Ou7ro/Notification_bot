@@ -6,10 +6,9 @@ from requests.exceptions import ReadTimeout, ConnectionError
 from environs import env
 
 
-env.read_env()
-
-
 def main():
+    env.read_env()
+
     logger.info('Запуск скрипта')
 
     devman_token = env.str('DEVMAN_TOKEN')
