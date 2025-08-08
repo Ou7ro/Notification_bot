@@ -1,5 +1,5 @@
 from services.devman_api import get_review_status
-from config.logger import logger
+from config.logger import setup_logger
 from services.tg_bot import send_notification
 from utils.formater import format_review_notification
 from requests.exceptions import ReadTimeout, ConnectionError
@@ -9,6 +9,7 @@ from environs import env
 def main():
     env.read_env()
 
+    logger = setup_logger()
     logger.info('Запуск скрипта')
 
     devman_token = env.str('DEVMAN_TOKEN')
@@ -23,8 +24,6 @@ def main():
             if api_answer.get('status') == 'timeout':
                 timestamp = api_answer.get('timestamp_to_request')
 
-                logger.debug(f'Запрос с новым timestamp {timestamp}')
-
             if api_answer.get('status') == 'found':
                 logger.info("Найдены новые проверки!")
 
@@ -36,7 +35,7 @@ def main():
         except ReadTimeout:
             continue
         except ConnectionError:
-            logger.warning('Нет соединения с интернетом')
+            logger.error('Нет соединения с интернетом')
 
 
 if __name__ == '__main__':

@@ -1,13 +1,40 @@
 import logging
-import sys
+from telegram import Bot
+from environs import env
+
+
+class TelegramLogsHandler(logging.Handler):
+    def __init__(self, tg_token: str, chat_id: str):
+        super().__init__()
+        self.tg_token = tg_token
+        self.chat_id = chat_id
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        bot = Bot(token=self.tg_token)
+        bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
 def setup_logger():
-    logging.basicConfig(level=logging.INFO,
-                        format='%(levelname)s - %(message)s',
-                        datefmt='%H:%M:%S',
-                        stream=sys.stdout)
-    return logging.getLogger(__name__)
 
+    env.read_env()
 
-logger = setup_logger()
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.ERROR)
+
+    console_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(console_formatter)
+    logger.addHandler(console_handler)
+
+    try:
+        tg_token = env.str("TG_TOKEN")
+        chat_id = env.str("CHAT_ID")
+        telegram_handler = TelegramLogsHandler(tg_token, chat_id)
+        telegram_handler.setFormatter(logging.Formatter('%(levelname)s\n%(message)s'))
+        logger.addHandler(telegram_handler)
+    except Exception as e:
+        logger.error(f"Не удалось подключить Telegram-логгер: {e}")
+
+    return logger
