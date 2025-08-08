@@ -14,6 +14,7 @@ def main():
 
     devman_token = env.str('DEVMAN_TOKEN')
     tg_token = env.str('TG_TOKEN')
+
     chat_id = env.str('CHAT_ID')
 
     timestamp = None
@@ -24,8 +25,10 @@ def main():
             if api_answer.get('status') == 'timeout':
                 timestamp = api_answer.get('timestamp_to_request')
 
+                logger.debug(f'Запрос с новым timestamp {timestamp}')
+
             if api_answer.get('status') == 'found':
-                logger.info("Найдены новые проверки!")
+                logger.info('Найдены новые проверки!')
 
                 timestamp = api_answer.get('last_attempt_timestamp')
                 message = format_review_notification(api_answer)

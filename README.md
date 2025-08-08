@@ -20,11 +20,14 @@ pip install -r requirements.txt
 Требуется создать файл `.env` и прописать следующие переменные окружения:
 - DEVMAN_TOKEN
 - TG_TOKEN
+- TG_LOG_TOKEN
 - CHAT_ID
 
 `DEVMAN_TOKEN` можно получить по следующей [ссылке](https://dvmn.org/api/docs/). Нужен для взаимодействия с devman API
 
 `TG_TOKEN` можно сгенерировать у [Отца Ботов](https://telegram.me/BotFather). Нужен для взаимодействия с ботом.
+
+`TG_LOG_TOKEN` можно сгенерировать у [Отца Ботов](https://telegram.me/BotFather). Нужен для логирования ошибок на сервере.
 
 `CHAT_ID` инструкция по получению id чата [здесь](https://lumpics.ru/how-find-out-chat-id-in-telegram/). Нужен для отправки уведомлений в ваш личный чат.
 

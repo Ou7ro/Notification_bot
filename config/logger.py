@@ -29,9 +29,9 @@ def setup_logger():
     logger.addHandler(console_handler)
 
     try:
-        tg_token = env.str("TG_TOKEN")
-        chat_id = env.str("CHAT_ID")
-        telegram_handler = TelegramLogsHandler(tg_token, chat_id)
+        tg_log_token = env.str('TG_LOG_TOKEN')
+        chat_id = env.str('CHAT_ID')
+        telegram_handler = TelegramLogsHandler(tg_log_token, chat_id)
         telegram_handler.setFormatter(logging.Formatter('%(levelname)s\n%(message)s'))
         logger.addHandler(telegram_handler)
     except Exception as e:
